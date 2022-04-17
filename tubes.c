@@ -29,31 +29,31 @@ typedef char bool;
 	============================================================= 
 */
 
-//
+// Rafli
 struct lnode {
 }
 
-//
+// Rafli
 void list_init(lnodeT **root, unsigned int id) {
 }
 
-//
+// Rafli
 void list_insert(lnodeT *root, unsigned int id) {
 }
 
-//
+// Rafli
 lnodeT * list_find(lnodeT *root, unsigned int id) {
 }
 
-//
+// Rafli
 void list_merge(lnodeT **newRoot, lnodeT *firstRoot, lnodeT *secondRoot ){
 }
 
-//
+// Rafli
 bool list_equal(lnodeT *firstRoot, lnodeT *secondRoot){
 }
 
-//
+// Rafli
 void list_print(lnodeT *root){
 }
 
@@ -64,7 +64,7 @@ void list_print(lnodeT *root){
 	============================================================= 
 */
 
-//
+// Mas Bayu
 struct mintermGroup{
 }; typedef struct mintermGroup mintermGroupT;
 
@@ -75,11 +75,11 @@ struct mintermGroup{
 	============================================================= 
 */ 
 
-//
+// Mas Bayu
 int max(int a,int b){
 }
 
-//
+// Mas Bayu
 void StrReverse(char *s){
 }
 
@@ -90,11 +90,11 @@ void StrReverse(char *s){
 	============================================================= 
 */ 
 
-//
+// Mas Bayu
 int CompareMintermsByRepr( const void *a , const void * b){
 }
 
-//
+// Mas Bayu
 int CompareMintermsById( const void * a, const void * b){
 }
 
@@ -106,7 +106,7 @@ int CompareMintermsById( const void * a, const void * b){
 	============================================================= 
 */
 
-//
+// BY DEFAULT DEOVIE
 void CountTerms(char *exp, int *cTerms){
 }
 
@@ -135,6 +135,6 @@ void GetEssentialImplicants(bool ** primeChart, int cPrimeImplicants, int cMinte
 }
 
 
-
+// Ojan
 int main(int argc, char *argv[]){
 }
