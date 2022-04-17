@@ -110,11 +110,14 @@ int CompareMintermsById( const void * a, const void * b){
 void CountTerms(char *exp, int *cTerms){
 }
 
+//
 void ReadInput(int *cMinterms,char *exp_minterms){
 }
 
+//
 void ParseInput(char *exp, mintermGroupT *mt, int cTerms, int *cVariables){
 }
+
 
 bool CanFormGroup(mintermGroupT firstGroup, mintermGroupT secondGroup, int cVariables){
 }
