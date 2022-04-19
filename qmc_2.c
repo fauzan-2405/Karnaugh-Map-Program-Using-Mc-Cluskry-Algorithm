@@ -203,26 +203,22 @@ void ReadInput(int *cMinterms,char *exp_minterms){
 }
 
 void ParseInput(char *exp, mintermGroupT *mt, int cTerms, int *cVariables){
-	int i,j;
-	int maxMinterm = 0;
+	int i,j;				//inisialisasi variable untuk for loop
+	int maxMinterm = 0;		//inisialisasi untuk mencari minterm terbesar
 	
 	char * pch = strtok(exp, PARSE_DELIMETERS);
 	for(i = 0; i < cTerms; i++){
-		/* Initialize the number bits that are one as zero */ 
-		mt[i].cPosBits = 0;
+
+		mt[i].cPosBits = 0;		//inisialisasi ke 0
 		
-		/* Add the minterm to the list */
-		mt[i].root = NULL;
+		mt[i].root = NULL;		
 		int id = atoi(pch);
-		list_init(&mt[i].root, id);
+		list_init(&mt[i].root, id);		//memasukkan minterm ke list
 		
-		/* Find the minterm with the greatest number of bits */
-		maxMinterm = max(maxMinterm, id );
+		maxMinterm = max(maxMinterm, id );		//untuk mencari minterm max
 		
-		/* Construct the binary representation of the minterm */
-		/* NOTE: It is constructed in the reverse order */
-		char *binaryRepr = (char *)malloc( (VARIABLES_MAX + 1) * sizeof(char) );
-		for(j = 0; j < VARIABLES_MAX; j++){
+		char *binaryRepr = (char *)malloc( (VARIABLES_MAX + 1) * sizeof(char) );	//mengubah minterm dari angka ke binary
+		for(j = 0; j < VARIABLES_MAX; j++){		//binary yang dibuat akan terkonstruksi secara terbalik
 			if( (id & (1 << j) ) != 0){
 				binaryRepr[j] = '1';
 				mt[i].cPosBits++;
@@ -231,74 +227,68 @@ void ParseInput(char *exp, mintermGroupT *mt, int cTerms, int *cVariables){
 				binaryRepr[j] = '0';
 			}
 		}
-		binaryRepr[VARIABLES_MAX] = '\0';
+		binaryRepr[VARIABLES_MAX] = '\0';		//untuk menandakan akhir dari str
 		
-		/* Copy the binary representation to the repr field */
-		mt[i].repr = (char *)malloc( (VARIABLES_MAX + 1) * sizeof(char) );
-		strcpy(mt[i].repr, binaryRepr);
+		mt[i].repr = (char *)malloc( (VARIABLES_MAX + 1) * sizeof(char) );		
+		strcpy(mt[i].repr, binaryRepr);										//meng-copy nilai binary dari minterm ke repr
 		
-		/* Find the next minterm */
-		if(i < cTerms - 1){
+		if(i < cTerms - 1){		//lanjut mencari minterm selanjutnya
 			pch = strtok(NULL, PARSE_DELIMETERS);
 		}
 	}
 	
-	/* Calculate the number of variables */
 	(*cVariables) = 0;
 	int binary = 1;
-	while( maxMinterm > (binary - 1) ){
+	while( maxMinterm > (binary - 1) ){		//untuk menghitung jumlah variable yang ada
 		binary = binary * 2;
 		(*cVariables)++;
 	}
 	
-	/* Realloc the 'repr' fields to save some (hopefully enough?) memory */
-	for(i = 0; i < cTerms; i++){
+	for(i = 0; i < cTerms; i++){		//digunakan realloc untuk menghemat memory, kalau bisa
 		mt[i].repr = (char *)realloc( mt[i].repr , (*cVariables + 1) * sizeof(char) );
 		mt[i].repr[ *cVariables ] = '\0';
 		StrReverse( mt[i].repr );
 	}
 }
 
-bool CanFormGroup(mintermGroupT firstGroup, mintermGroupT secondGroup, int cVariables){
+bool CanFormGroup(mintermGroupT firstGroup, mintermGroupT secondGroup, int cVariables){		//digunakan untuk membuat group minterm
 	int i, bitsDiffer = 0;
-	for(i = 0; i < cVariables; i++){
-		/* If some '-' cant match the corresponding '-' in the other group */ 
-		if( (firstGroup.repr[i] == '-' && secondGroup.repr[i] != '-') ||
-			(firstGroup.repr[i] != '-' && secondGroup.repr[i] == '-') ){
+	for(i = 0; i < cVariables; i++){	//for loop biasa untuk mengiterasi isi dari group
+		if( (firstGroup.repr[i] == '-' && secondGroup.repr[i] != '-') ||	//apabila kedua group memiliki posisi '-' yang berbeda
+			(firstGroup.repr[i] != '-' && secondGroup.repr[i] == '-') ){	//maka fungsi selesai
 				return 0;
 		}
-		/* If the have different bit in the same position (excluding '-') */
-		if( firstGroup.repr[i] != secondGroup.repr[i] ){
-			bitsDiffer++;
+	
+		if( firstGroup.repr[i] != secondGroup.repr[i] ){	//apabila kedua group punya bit yang berbeda (kecuali '-') di posisi yang sama
+			bitsDiffer++;									//maka variable bitsDiffer akan ditambah 1
 		}
 	}
-	/* If the differ exactly ONE bit */ 
-	return (bitsDiffer == 1) ? 1 : 0;
+	
+	return (bitsDiffer == 1) ? 1 : 0;	//apabila hanya terdapat 1 bit yang berbeda
 }
 
-void CreateNewGroupRepr(char *newGroupRepr, char *firstGroupRepr, char *secondGroupRepr, int cVariables){
+void CreateNewGroupRepr(char *newGroupRepr, char *firstGroupRepr, char *secondGroupRepr, int cVariables){	//digunakan untuk membuat group representative baru
 	int i;
 	for(i = 0; i < cVariables; i++){
-		if( firstGroupRepr[i] == secondGroupRepr[i] ){
-			newGroupRepr[i] = firstGroupRepr[i];
+		if( firstGroupRepr[i] == secondGroupRepr[i] ){	//apabila kedua bit dari group repr pertama dan kedua sama,
+			newGroupRepr[i] = firstGroupRepr[i];		//maka element group baru pada index i akan memiliki nilai yang sama juga
 		}
 		else{
-			newGroupRepr[i] = '-';
+			newGroupRepr[i] = '-';						//kalau tidak, maka element dari group baru pada index i akan berupa '-'
 		}
 	}
-	newGroupRepr[cVariables] = '\0';
+	newGroupRepr[cVariables] = '\0';	//untuk menandakan akhir dari str
 }
 
 void GetPrimeImplicants( mintermGroupT **table, bool ** termsUsed, 
-						mintermGroupT *primeImplicants, int *lenCol, int cColumns){
+						mintermGroupT *primeImplicants, int *lenCol, int cColumns){	//untuk mendapatkan array prime implicant dari tabel
 	int index = 0;
 	int i,j;
 	
-	/* Iterate the table to add the prime Implicants to the corrensponding array */
-	for( i = 0; i <= cColumns; i++){
+	for( i = 0; i <= cColumns; i++){		//nested for loop biasa untuk mendapatkan prime implicant dari tabel
 		for( j = 0; j < lenCol[i]; j++){
 			if( !termsUsed[i][j] ){
-				primeImplicants[index] = table[i][j];
+				primeImplicants[index] = table[i][j]; 	//mengisi array prime implicant dengan nilai dari tabel
 				index++;
 			}
 		}
@@ -306,7 +296,7 @@ void GetPrimeImplicants( mintermGroupT **table, bool ** termsUsed,
 }
 
 void CreatePrimeChart(bool ** primeChart, mintermGroupT* minterms, int cMinterms,
-					mintermGroupT * primeImplicants, int cPrimeImplicants){
+					mintermGroupT * primeImplicants, int cPrimeImplicants){			//untuk membuat chart dari prime implicant
 	int i,j, mintermId;
 	lnodeT * curr;
 	for(i = 0; i < cPrimeImplicants; i++){
@@ -330,19 +320,19 @@ void CreatePrimeChart(bool ** primeChart, mintermGroupT* minterms, int cMinterms
 	}
 }
 
-void GetEssentialImplicants(bool ** primeChart, int cPrimeImplicants, int cMinterms, bool * isEssential ){
+void GetEssentialImplicants(bool ** primeChart, int cPrimeImplicants, int cMinterms, bool * isEssential ){		//fungsi untuk mengambil implicants2 yang penting saja (prime implicant yg tidak dibuang)
 	int i,j;
 	int nextEssential;
 	
-	for(j = 0; j < cMinterms; j++){ /* Loop through all columns */
+	for(j = 0; j < cMinterms; j++){ 	//loop semua kolom dari minterm
 		nextEssential = -1;
-		for(i = 0; i < cPrimeImplicants; i++){ /* Loop through all Prime Implicants */
+		for(i = 0; i < cPrimeImplicants; i++){ 		//loop semua prime implicant yang ada
 			if( primeChart[i][j] == 1 ){
 				if(nextEssential == -1){
-					nextEssential = i;
+					nextEssential = i;		//menukar nilai nextEssensial dengan nilai i dari loop
 				}
-				else{
-					nextEssential = -1;
+				else{						//fungsi akan selesai apabila variable nextEssensial tidak bernilai -1
+					nextEssential = -1;		//nextEssensial akan diset nilainya ke -1 terlebih dahulu lalu fungsi di-break
 					break;
 				}
 			}
