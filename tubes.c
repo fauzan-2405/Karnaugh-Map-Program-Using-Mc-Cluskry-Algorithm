@@ -77,6 +77,7 @@ struct mintermGroup{
 
 // Mas Bayu
 int max(int a,int b){
+	// halo
 }
 
 // Mas Bayu
