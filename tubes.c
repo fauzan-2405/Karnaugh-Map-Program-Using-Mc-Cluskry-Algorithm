@@ -60,46 +60,78 @@ void list_print(lnodeT *root){
 
 /*
 	============================================================= 
-	*						GRUP STUKTUR MINTERM
+	*			GRUP STUKTUR MINTERM
 	============================================================= 
 */
 
 // Mas Bayu
+//Membuat struktur data untuk grup minterm
 struct mintermGroup{
-}; typedef struct mintermGroup mintermGroupT;
+	char *repr; //pointer untuk repr field
+	lnodeT* root; //pointer root
+	unsigned int cPosBits;
+};
+typedef struct mintermGroup mintermGroupT;
 
 
 /*
 	============================================================= 
-	*					FUNGSI PEMBANTU
+	*			FUNGSI PEMBANTU
 	============================================================= 
 */ 
 
 // Mas Bayu
+//Menentukan nilai mana yang lebih besar (a atau b)
 int max(int a,int b){
-	// halo
+	if (a>b) //jika a lebih besar dari b
+        return a; //kembali ke a
+    else //jika a lebih kecil dari b
+        return b; //kembali ke b
 }
 
-// Mas Bayu
+//Mengubah nilai biner pada Kmap
 void StrReverse(char *s){
+	int low = 0; //nilai awal 0
+	int high = strlen(s) - 1; //menentukan nilai high dari panjang karakter s dikurangi 1
+	while(low < high){ //fungsi akan berulang ketika low lebih kecil dari high
+		char c = s[low];
+		s[low] = s[high];
+		s[high] = c;
+        //ketika low > high, maka:
+		low++;high--; 
+	}
 }
 
 
 /*
 	============================================================= 
-	*					FUNGSI PEMBANDING
+	*		FUNGSI PEMBANDING UNTUK QSORT
 	============================================================= 
 */ 
 
 // Mas Bayu
+//Fungsi CompareMintermByRepr
 int CompareMintermsByRepr( const void *a , const void * b){
+    //mengisi nilai mintermGroupT 1 dan 2 ke a dan b
+	mintermGroupT *first  = (mintermGroupT *)a;
+	mintermGroupT *second = (mintermGroupT *)b;
+
+	if( first->cPosBits == second->cPosBits ){ //jika nilai 1 dan 2 cPosbits sama
+        //maka kembali ke:
+		return strcmp( first->repr, second->repr ); 
+	}
+    //jika tidak sama maka kembali ke:
+	return (first->cPosBits - second->cPosBits);
 }
 
-// Mas Bayu
+//Fungsi CompareMintermById
 int CompareMintermsById( const void * a, const void * b){
+    //mengisi nilai 1 dan 2 mintermgrup ke a dan b
+	mintermGroupT * first  = (mintermGroupT *)a;
+	mintermGroupT * second = (mintermGroupT *)b;
+    //setelah isi kembali ke:
+	return ( first->root->id - second->root->id);
 }
-
-
 
 /*
 	============================================================= 
