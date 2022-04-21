@@ -66,6 +66,7 @@ void list_print(lnodeT *root){
 
 //
 struct mintermGroup{
+	//Tes 12345678910
 }; typedef struct mintermGroup mintermGroupT;
 
 
