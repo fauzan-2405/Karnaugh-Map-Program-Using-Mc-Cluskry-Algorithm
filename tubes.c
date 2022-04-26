@@ -436,7 +436,7 @@ int main(int argc, char *argv[]){
 	isEssential = (bool*) calloc(cPrimeImplicants, sizeof(bool));
 	GetEssentialImplicants (primeChart, cPrimeImplicants, cMinterms, isEssential);
 
-	/* // Alokasikan memori untuk array mintermsToCover dan isi array tersebut
+	// Alokasikan memori untuk array mintermsToCover dan isi array tersebut
 	mintermsCovered = (bool *)calloc( cMinterms, sizeof(bool) );
 	for( i = 0; i < cPrimeImplicants; i++){
 		if( isEssential[i] ){
@@ -444,14 +444,14 @@ int main(int argc, char *argv[]){
 				if( primeChart[i][j] )
 					mintermsCovered[j] = 1;
 		}
-	} */
+	} 
 
 
 	// Print Hasil yang didapatkan
-	// Print kolom
+	// Print Tabel sesuai langkah QMC algorithm
 	printf("\n\n");
 	for(j = 0; j <= cColumns; j++){
-		printf("############### COLUMN %d ###############\n",j);
+		printf("############### TABEL %d ###############\n",j+1);
 		for(i = 0; i < lenCol[j]; i++){
 			printf("[ ");
 			list_print( table[j][i].root );
@@ -461,7 +461,7 @@ int main(int argc, char *argv[]){
 	}
 	
 	// Print prime implicant
-	printf("############### PRIME IMPLICANTS ###############\n\n");
+	printf("############### PRIME IMPLICANT ###############\n\n");
 	for(i = 0; i < cPrimeImplicants; i++){
 		printf("[P%2d]: %s  [ ", i, primeImplicants[i].repr);
 		list_print( primeImplicants[i].root );
@@ -489,7 +489,7 @@ int main(int argc, char *argv[]){
 	}
 	
 	// Print essential prime implicant
-	printf("\n\n############### ESSENTIAL PRIME IMPLICANTS ###############\n\n");
+	printf("\n\n############### ESSENTIAL PRIME IMPLICANT ###############\n\n");
 	for(i = 0; i < cPrimeImplicants; i++){
 		if( isEssential[i] ){
 			printf("[P%2d]: %s  [ ", i, primeImplicants[i].repr);
@@ -498,6 +498,29 @@ int main(int argc, char *argv[]){
 		}
 	}
 
+	printf("\nHasil = ");
+	for(i = 0; i < cPrimeImplicants; i++){
+		if( isEssential[i] ){
+			for (int k = 0; k < strlen(primeImplicants[i].repr); k++) {
+				if  (primeImplicants[i].repr[k] == '1') {
+					printf("x[%d]", k);
+				}
+				else if  (primeImplicants[i].repr[k] == '0') {
+					printf("x'[%d]", k);
+				}
+
+				else {
+					printf("");
+				}	
+			}
+			if (i < cPrimeImplicants - 1) {
+				printf(" + ");
+			}
+			
+			
+		}
+		
+	}
 
 	return 0;
 }
