@@ -1,26 +1,20 @@
-#### INPUT OUTPUT CODE qmc_2.c ####
-
-#Quine–McCluskey Algorithm 
-
-Simple implementation of [Quine–McCluskey algorithm](http://en.wikipedia.org/wiki/Quine%E2%80%93McCluskey_algorithm) in C language. It uses arrays and lists to provide a good insight (hopefully) of their utility in an actual algorithm. Although due to the use of the above data structures, it is pretty inefficient both in terms of time and space.
+#### Quine–McCluskey Algorithm ####
+Program ini digunakan untuk meminimisasi minterm yang dimasukkan oleh user. Spesifikasi dari program ini adalah:
+> Input  : String minterm tanpa dont care
+> Output : Tabel hasil penyelesaian minterm, prime chart, essential prime implicant, dan hasil akhir minimisasi berdasarkan jumlah variabel yang dimasukkan
 
 ##Input format
-
-The input format is given in a single string, containing all the minterms of the function we want to minimize. Example:
+Format input diberikan dalam bentuk string yang berisikan minterm yang ingin diminimisasi. Contoh:
 
 	>> 0,2,5,8,9,13,15
 
-The input above is equivalent to the function below:
+Input di atas ekivalen dengan fungsi di bawah ini:
 
 	F = Σm(0,2,5,8,9,13,15)
 
-## TODO
-- ✓ Show **prime implicant chart**
--   Complete *minimizing* boolean function
--   Support for **don't care** conditions
--   Input format as boolean function
-
-##Contact
-
-If you have any question or suggestion don't hesitate to mail me at [kkanelli@hotmail.com](mailto:kkanelli@hotmail.com) 
+## Kelompok 13
+1. Muhammad Fauzan (13220009)
+2. Muhammad Rafli Fadilah Yusmar (13220037)
+3. Bayu Aji Nugroho (13221601)
+4. Deovie Lentera Hikmatullah (18320037)
 
