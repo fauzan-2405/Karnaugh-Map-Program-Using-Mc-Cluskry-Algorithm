@@ -4,7 +4,7 @@
 	1. Bayu Aji Nugroho 
 	2. Deovie Lentera
 	3. Muhammad Fauzan
-	4. Muhammad Rafli Bagaskara
+	4. Muhammad Rafli Fadilah Yusmar
 */
 
 #include <stdio.h>
@@ -30,31 +30,99 @@ typedef char bool;
 */
 
 // Rafli
+// Membuat Struktur data untuk lnode
 struct lnode {
+	unsigned int id;
+	struct lnode * next;
+	struct lnode * prev;
+};
+typedef struct lnode lnodeT;    // Nama baru untuk tipe data struct lnod
 }
 
 // Rafli
+// Memasukkan minterms ke dalam list
 void list_init(lnodeT **root, unsigned int id) {
+	 // Alokasi dan inisialisasi node baru
+    	lnodeT *newElement = (lnodeT *)malloc( sizeof(lnodeT) );
+	newElement->id = id;
+	newElement->next = newElement->prev = NULL;
+
+	*root = newElement;
 }
 
 // Rafli
 void list_insert(lnodeT *root, unsigned int id) {
+	// Alokasi dan inisialisasi node baru
+	lnodeT *newElement = (lnodeT *)malloc( sizeof(lnodeT) );
+	newElement->id = id;
+	newElement->next = newElement->prev = NULL;
+
+	// Temukan posisi yang sesuai untuk menyisipkan newElement
+	lnodeT * curr = root;
+	while(curr->next != NULL){
+		if(curr->next->id > newElement->id)
+			break;
+
+		curr = curr->next;  // Jika keadaan di atas belum dipenuhi
 }
 
 // Rafli
 lnodeT * list_find(lnodeT *root, unsigned int id) {
+	lnodeT * curr = root;
+
+	while( curr != NULL ){
+		// Jika nod id yang sekarang sama dengan id yang kita cari, maka:
+		if( curr->id == id ){
+			return curr;
+		}
+		curr = curr->next;
+	}
+
+	return NULL;
 }
 
 // Rafli
 void list_merge(lnodeT **newRoot, lnodeT *firstRoot, lnodeT *secondRoot ){
+	list_init(newRoot, firstRoot->id );
+
+	// Sisipkan semua nod dari list pertama
+	lnodeT *curr = firstRoot->next;
+	while( curr != NULL ){
+		list_insert( *newRoot, curr->id );
+		curr = curr->next;
+	}
+
+	// Sisipkan semua nod dari list kedua
+	curr = secondRoot;
+	while( curr != NULL ){
+		list_insert( *newRoot, curr->id );
+		curr = curr->next;
+	}
 }
 
 // Rafli
 bool list_equal(lnodeT *firstRoot, lnodeT *secondRoot){
+	lnodeT *fNode = firstRoot;
+	lnodeT *sNode = secondRoot;
+	while( fNode != NULL ){
+		// Jika list tidak sama
+		if(fNode->id != sNode->id)
+			return 0;
+
+		fNode = fNode->next;
+		sNode = sNode->next;
+	}
+	// Jika list sama
+	return 1;
 }
 
 // Rafli
 void list_print(lnodeT *root){
+	lnodeT *curr = root;
+	while(curr != NULL){
+		printf("%2d ",curr->id);
+		curr = curr->next;
+	}
 }
 
 
@@ -141,13 +209,33 @@ int CompareMintermsById( const void * a, const void * b){
 
 // Rafli
 void CountTerms(char *exp, int *cTerms){
+	 *cTerms = 1;
+
+	char *ptr = strchr(exp,DELIMITER);
+	while(ptr != NULL){
+		(*cTerms)++;    // Inkremen cTerms
+
+		ptr = strchr(ptr + 1, DELIMITER);
+	}
 }
 
-//
+// Rafli
 void ReadInput(int *cMinterms,char *exp_minterms){
+	printf("\n***********************************\n");
+	printf("---- Quine-McCluskey Algorithm ----\n");
+	printf("***********************************\n\n");
+
+	char printfFormat[15];
+	sprintf(printfFormat,"%%%d[^\n]s",EXPRESSION_MAX_LENGTH - 1);
+
+	printf("Please enter the minterms:\n\t>> ");    // Masukkan minterms yang ingin diproses
+	scanf(printfFormat, exp_minterms);
+
+	// Hitung terms yang dimasukkan oleh user
+	CountTerms(exp_minterms, cMinterms);
 }
 
-// Deovie, ntar klo sempet mau gw tambah2in lagi
+// Deovie
 void ParseInput(char *exp, mintermGroupT *mt, int cTerms, int *cVariables){
 	int i,j;			//inisialisasi variable untuk for loop
 	int maxMinterm = 0;		//inisialisasi untuk mencari minterm terbesar
