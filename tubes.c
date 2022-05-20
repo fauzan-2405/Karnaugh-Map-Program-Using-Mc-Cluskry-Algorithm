@@ -37,7 +37,7 @@ struct lnode {
 	struct lnode * prev;
 };
 typedef struct lnode lnodeT;    // Nama baru untuk tipe data struct lnod
-}
+
 
 // Rafli
 // Memasukkan minterms ke dalam list
@@ -59,7 +59,7 @@ void list_insert(lnodeT *root, unsigned int id) {
 
 	// Temukan posisi yang sesuai untuk menyisipkan newElement
 	lnodeT * curr = root;
-	while(curr->next != NULL){
+	while(curr->next != NULL)
 		if(curr->next->id > newElement->id)
 			break;
 
@@ -221,14 +221,11 @@ void CountTerms(char *exp, int *cTerms){
 
 // Rafli
 void ReadInput(int *cMinterms,char *exp_minterms){
-	printf("\n***********************************\n");
-	printf("---- Quine-McCluskey Algorithm ----\n");
-	printf("***********************************\n\n");
 
 	char printfFormat[15];
 	sprintf(printfFormat,"%%%d[^\n]s",EXPRESSION_MAX_LENGTH - 1);
 
-	printf("Please enter the minterms:\n\t>> ");    // Masukkan minterms yang ingin diproses
+	printf("Masukkan minterm yang akan diminimisasi:\n\t>> ");    // Masukkan minterms yang ingin diproses
 	scanf(printfFormat, exp_minterms);
 
 	// Hitung terms yang dimasukkan oleh user
@@ -403,8 +400,7 @@ int main(int argc, char *argv[]){
 
 	printf("===================================================================\n");
 	printf("SELAMAT DATANG DI PROGRAM LOGIC MINIMIZATION DENGAN ALGORITMA QMC\n");
-	printf("Masukkan minterm yang akan diminimisasi/n");
-	printf("Contoh masukan: 0,1,2,5,7,9");
+	printf("Contoh masukan: 0,1,2,5,7,9\n");
 
 	// Input string
 	char exp_minterms[EXPRESSION_MAX_LENGTH];
