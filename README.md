@@ -25,9 +25,12 @@ Input di atas ekivalen dengan fungsi di bawah ini:
 	F = Σm(0,2,5,8,9,13,15)
 
 Output yang dihasilkan dari minterm yang diinput tersebut adalah:
+
 ![2022-05-20 (3)](https://user-images.githubusercontent.com/85777524/169429027-5f5b494f-4ba3-4468-b960-ea4c7c2c4a18.png)
 
-![2022-05-20 (1)](https://user-images.githubusercontent.com/85777524/169428914-a8015b20-b0b6-44b2-9494-096be108d0d1.png)
+
+
+![2022-05-20 (2)](https://user-images.githubusercontent.com/85777524/169429148-27ab0b0a-8467-46fb-9c22-aca5a52f0f5f.png)
 
 
 ## Kelompok 13
