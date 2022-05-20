@@ -3,7 +3,7 @@ Program ini digunakan untuk meminimisasi minterm yang dimasukkan oleh user. Spes
 > Input  : String minterm tanpa dont care
 > Output : Tabel hasil penyelesaian minterm, prime chart, essential prime implicant, dan hasil akhir minimisasi berdasarkan jumlah variabel yang dimasukkan
 
-##Input format
+Input format
 Format input diberikan dalam bentuk string yang berisikan minterm yang ingin diminimisasi. Contoh:
 
 	>> 0,2,5,8,9,13,15
